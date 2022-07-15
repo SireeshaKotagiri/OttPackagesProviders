@@ -25,6 +25,7 @@ import com.onnet.ott.entity.LookupKeysMapping;
 import com.onnet.ott.entity.PackageProviderMapping;
 import com.onnet.ott.entity.PackagesInfo;
 import com.onnet.ott.entity.ProvidersInfo;
+import com.onnet.ott.exception.UserAlreadyExistException;
 import com.onnet.ott.exception.UserNotFoundException;
 import com.onnet.ott.repository.LookupKeysMappingRepository;
 import com.onnet.ott.repository.PackageProviderMappingRepository;
@@ -129,6 +130,7 @@ public class ProvidersService implements ProvidersInterface {
 		}
 		providersRepository.delete(providersInfo);
 		return "provider deleted successfully " + pId;
+		
 	}
 
 	private ProviderResponse responsePayload(ProvidersInfo providerEntity) {
@@ -182,10 +184,11 @@ public class ProvidersService implements ProvidersInterface {
 			return lookupKeysMappingRepository.save(lookupKeysMapping);
 		} else {
 			logger.info("<< request in service persisted  >>", lookupKeys);
-			throw new com.onnet.ott.exception.UserAlreadyExistException("User not Exists, Try with other Id");
+			throw new UserAlreadyExistException("User not Exists, Try with other Id");
 		}
 	}
 
+	
 	/*
 	 * @Override public List<LookupKeysMapping> getLookup() {
 	 * List<LookupKeysMapping> keys = lookupKeysMappingRepository.findAll(); for
@@ -202,18 +205,24 @@ public class ProvidersService implements ProvidersInterface {
 	 * 
 	 * return keys; }
 	 */
-	@Override
-	public List<LookupKeysMapping> getLookup() {
-		List<LookupKeysMapping> keys = lookupKeysMappingRepository.findAll();
-		for (LookupKeysMapping lookUp : keys) {
-			JSONObject obj = new JSONObject(lookUp.getKeysMapping());
-			JSONArray jsonArr = (JSONArray) obj.get("keysMapping");
-			for (int k = 0; k < jsonArr.size(); k++) {
-					 
-					  if (jsonArr.get(k) instanceof JSONObject) { jsonArr.get(k); } else {
-					  System.out.println(jsonArr.get(k)); }
-					  
-					  } }
-		return keys;
-	
-	}}
+	  @Override public List<LookupKeysMapping> getLookup() {
+		  List<LookupKeysMapping> keys = lookupKeysMappingRepository.findAll();
+		  for(LookupKeysMapping lookUp : keys) 
+		  {
+			  JSONObject obj = new  JSONObject(lookUp.getKeysMapping()); 
+		  JSONArray jsonArr = (JSONArray) obj.get("keysMapping"); 
+		  for (int k = 0; k < jsonArr.size(); k++) 
+		  {
+		  if (jsonArr.get(k) instanceof JSONObject) 
+		  { 
+			  jsonArr.get(k);
+			  } 
+		  else {
+		  System.out.println(jsonArr.get(k)); }
+		  
+		  } }
+		  
+		  return keys; 
+		  }
+
+	}

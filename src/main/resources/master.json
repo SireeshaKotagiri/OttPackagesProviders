@@ -1,0 +1,144 @@
+{
+    "onId": "onnet defined",
+    "title": "Content name",
+    "categoryType": "category Name",
+    "contentType": "VOD, Live sports, etc",
+    "longDesc": "long Description",
+    "shortDesc": "short Description",
+    "language": "content language",
+    "cast": [
+        {
+            "castID": "onnet defined",
+            "castImage": "Actor image",
+            "castName": "Actor name"
+        }
+    ],
+    "releaseDate": "release Date",
+    "genre": [
+        "genre"
+    ],
+    "year": "releaseYear",
+    "searchTags": [
+        "searchKeywords"
+    ],
+    "director": [
+        {
+            "directorID": "onnet defined",
+            "directorImage": "Actor image",
+            "directorName": "Actor name"
+        }
+    ],
+    "studio": "movie Studio",
+    "country": "country of origin",
+    "authors": [
+        {
+            "authorID": "onnet defined",
+            "authorImage": "Actor image",
+            "authorName": "Actor name"
+        }
+    ],
+    "ageRating": "Age ratings of movie",
+    "duration": "duration",
+    "advisoryTags": [
+        "Content warning"
+    ],
+    "adultContent": "kidsSafe",
+    "isOnAir": "isOnAir",
+    "firstUpdated": "onnet defined",
+    "lastUpdated": "onnet defined",
+    "contentAssets": {
+        "posterLandscape": "poster in landscape",
+        "bannerLandscape": "banner in landscape",
+        "thumbnailLandscape": "thumbnail in landscape",
+        "posterPortrait": "poster in portrait",
+        "bannerPortrait": "banner in portrait",
+        "thumbnailPortrait": "thumbnail in portrait",
+        "trailer": "Trailer URL",
+        "contentSprite": "tv Sprite Image Url"
+    },
+    "providerData": [
+        {
+            "providerName": "Provider Name",
+            "providerID": "Provider ID",
+            "providerSupportType": "deep level integration or app in app",
+            "providerTier": "provider category",
+            "providerContentId": "contentId",
+            "premiumContent": "If content is available for free",
+            "promotedContent": "If the provider has promoted this content",
+            "audioLanguage": [
+                "metadataLanguage"
+            ],
+            "surroundSoundSupport": "surround Sound Support",
+            "downloadable": "downloadable",
+            "subtitleAvailable": "subtitleAvailable",
+            "freeCountries": [
+                "freeCountries"
+            ],
+            "geoblockedCountries": [
+                "blockedCountries"
+            ],
+            "originalContent": "If this is original to the provider",
+            "advertising": "if it supports advertising",
+            "providerFileUrl": "fileUrl",
+            "drmId": "drmVideoKid",
+            "fileKey": "fileKey",
+            "contentContractEnd": "contractEndDate",
+            "providerLinks": {
+                "webLink": "deeplinkUrlPlayer",
+                "androidLink": "deeplinkPlayer",
+                "iosLink": "deeplinkPlayer",
+                "patchLink": "deeplinkPatch",
+                "deeplink": "deeplink",
+                "web": "webUrl"
+            },
+            "providerCreationDate": "date when the content was first inserted by provider",
+            "providerUpdationDate": "date when the content was upated by provider",
+            "providerDeleted": "if content has been removed from provider"
+        }
+    ],
+    "seriesInfo": {
+        "isContentSeries": "boolean if this is a series",
+        "onSeriesId": "onnet defined",
+        "season": "season Number",
+        "seasonTitle": "season Title",
+        "seriesDesc": "series Description",
+        "episode": "episode Number",
+        "episodeTitle": "episode Title",
+        "onEpisodeId": "onnet defined",
+        "episodeShortDesc": "shortDescription",
+        "episodeLongDesc": "programDescription",
+        "episodeTrailer": "Trailer URL",
+        "episodeCast": [
+            {
+                "castID": "onnet defined",
+                "castImage": "Actor image",
+                "castName": "Actor name"
+            }
+        ],
+        "isEpidodePopular": "trending status",
+        "comingSoon": "comingSoon",
+        "onDeepStorage": "boolean value for caching",
+        "onMetaScore": "meta critic score",
+        "imdbScore": "IMDB Score",
+        "rottenScore": "rotten Tomato score",
+        "seriesAssets": {
+            "seasonPosterLandscape": "seriesImage",
+            "seasonPosterPortrait": null,
+            "seasonBannerLandscape": "seriesImage",
+            "seasonBannerPortrait": null,
+            "seasonThumbnailLandscape": "seriesImage",
+            "seasonThumbnailPortrait": null,
+            "seasonTrailer": null,
+            "episodePosterLandscape": "poster",
+            "episodePosterPortrait": null,
+            "episodeBannerLandscape": "programImage",
+            "episodeBannerPortrait": null,
+            "episodeThumbnailLandscape": "thumbnail",
+            "episodeThumbnailPortrait": null,
+            "episodeTrailer": null,
+            "episodeSprite": "spriteImageUrl"
+        }
+    },
+    "onnetCertified": "boolean - after fetching data from TMDB/IMD/Gracenote to populate missing data.",
+    "removedContent": "soft delete"
+}
