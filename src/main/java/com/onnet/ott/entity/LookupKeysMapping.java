@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
+import org.json.simple.JSONObject;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,7 +19,7 @@ public class LookupKeysMapping {
 	 @Column(name="provider_name")
 	private String providerName;
 	 @Column(name="keys_mapping")
-	private String keysMapping;
+	private JSONObject keysMapping;
 	 @Column(name="created_date")
 	private Date createdDate;
 	 @Column(name="updated_date")
@@ -43,12 +44,12 @@ public class LookupKeysMapping {
 		this.providerName = providerName;
 	}
 
-	public String getKeysMapping() {
+	public JSONObject getKeysMapping() {
 		return keysMapping;
 	}
 
-	public void setKeysMapping(String keysMapping) {
-		this.keysMapping = keysMapping;
+	public void setKeysMapping(JSONObject obj) {
+		this.keysMapping = obj;
 	}
 
 	public Date getCreatedDate() {
@@ -75,7 +76,7 @@ public class LookupKeysMapping {
 		this.providersInfo = providersInfo;
 	}
 
-	public LookupKeysMapping(long providerId, String providerName, String keysMapping, Date createdDate,
+	public LookupKeysMapping(long providerId, String providerName, JSONObject keysMapping, Date createdDate,
 			Date updatedDate, List<ProvidersInfo> providersInfo) {
 		super();
 		this.providerId = providerId;

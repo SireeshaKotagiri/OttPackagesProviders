@@ -1,9 +1,16 @@
 package com.onnet.ott.service.impl;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +42,7 @@ public class ProvidersService implements ProvidersInterface {
 
 	@Autowired
 	private ProvidersRepository providersRepository;
-	
+
 	@Autowired
 	private LookupKeysMappingRepository lookupKeysMappingRepository;
 
@@ -70,7 +77,7 @@ public class ProvidersService implements ProvidersInterface {
 		providersRepository.save(providerEntity);
 		PackagesInfo packagesInfo = packageRepository.findById(providerEntity.getProviderId());
 		PackageProviderMapping packageProviderMapping = new PackageProviderMapping();
-		if(!ObjectUtils.isEmpty(packagesInfo)) {
+		if (!ObjectUtils.isEmpty(packagesInfo)) {
 			packageProviderMapping.setPackageId(packagesInfo.getPackageId());
 		}
 		packageProviderMapping.setProviderId(providerEntity.getProviderId());
@@ -120,7 +127,6 @@ public class ProvidersService implements ProvidersInterface {
 		if (providersInfo == null) {
 			throw new UserNotFoundException("id Not Found : " + pId);
 		}
-		
 		providersRepository.delete(providersInfo);
 		return "provider deleted successfully " + pId;
 	}
@@ -150,7 +156,6 @@ public class ProvidersService implements ProvidersInterface {
 
 	}
 
-	
 	@Override
 	public LookupKeysMapping save(LookupKeysMapping lookupKeys) {
 		ProvidersInfo providersInfo = providersRepository.findById(lookupKeys.getProviderId());
@@ -158,19 +163,57 @@ public class ProvidersService implements ProvidersInterface {
 			LookupKeysMapping lookupKeysMapping = new LookupKeysMapping();
 			lookupKeysMapping.setProviderId(providersInfo.getProviderId());
 			lookupKeysMapping.setProviderName(providersInfo.getProviderName());
-			lookupKeysMapping.setKeysMapping(lookupKeys.getKeysMapping());
 			lookupKeysMapping.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 			lookupKeysMapping.setUpdatedDate(new Timestamp(System.currentTimeMillis()));
+
+			try {
+				JSONParser parser = new JSONParser();
+				FileReader reader = new FileReader("src/main/resources/master.json");
+				Object data = parser.parse(reader);
+				JSONObject jsonObject = (JSONObject) data;
+				 Document doc = Document.parse(data.toString());
+				jsonObject.put("master", doc);
+				lookupKeysMapping.setKeysMapping(jsonObject);
+
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
+			}
+
 			return lookupKeysMappingRepository.save(lookupKeysMapping);
 		} else {
-			logger.info("<< request in service persisted employee >>", lookupKeys);
+			logger.info("<< request in service persisted  >>", lookupKeys);
 			throw new com.onnet.ott.exception.UserAlreadyExistException("User not Exists, Try with other Id");
 		}
 	}
 
+	/*
+	 * @Override public List<LookupKeysMapping> getLookup() {
+	 * List<LookupKeysMapping> keys = lookupKeysMappingRepository.findAll(); for
+	 * (LookupKeysMapping lookUp : keys) { JSONObject obj = new
+	 * JSONObject(lookUp.getKeysMapping());
+	 * 
+	 * JSONArray jsonArr = (JSONArray) obj.get("keysMapping"); for (int k = 0; k <
+	 * jsonArr.size(); k++) {
+	 * 
+	 * if (jsonArr.get(k) instanceof JSONObject) { jsonArr.get(k); } else {
+	 * System.out.println(jsonArr.get(k)); }
+	 * 
+	 * } }
+	 * 
+	 * return keys; }
+	 */
 	@Override
 	public List<LookupKeysMapping> getLookup() {
-		return lookupKeysMappingRepository.findAll();
-	}
-
-}
+		List<LookupKeysMapping> keys = lookupKeysMappingRepository.findAll();
+		for (LookupKeysMapping lookUp : keys) {
+			JSONObject obj = new JSONObject(lookUp.getKeysMapping());
+			JSONArray jsonArr = (JSONArray) obj.get("keysMapping");
+			for (int k = 0; k < jsonArr.size(); k++) {
+					 
+					  if (jsonArr.get(k) instanceof JSONObject) { jsonArr.get(k); } else {
+					  System.out.println(jsonArr.get(k)); }
+					  
+					  } }
+		return keys;
+	
+	}}

@@ -13,150 +13,187 @@ public class ProvidersInfo {
 	@Transient
 	public static final String SEQUENCE_NAME = "provider_sequence";
 	@Id
-	 @Column(name="provider_id")
+	@Column(name = "provider_id")
 	private long providerId;
-	 @Column(name="provider_name")
+	@Column(name = "provider_name")
 	private String providerName;
-	 @Column(name="provider_tier")
+	@Column(name = "provider_tier")
 	private int provideTier;
-	 @Column(name="concurrent_views")
+	@Column(name = "concurrent_views")
 	private int concurrentViews;
-	 @Column(name="offered_price")
+	@Column(name = "offered_price")
 	private int offeredPrice;
-	 @Column(name="enduser_price")
+	@Column(name = "enduser_price")
 	private int enduserPrice;
-	 @Column(name="provider_status")
+	@Column(name = "provider_status")
 	private int providerStatus;
-	 @Column(name="staging_key")
+	@Column(name = "staging_key")
 	private String stagingKey;
-	 @Column(name="production_key")
+	@Column(name = "production_key")
 	private String productionKey;
-	 @Column(name="provider_email")
+	@Column(name = "provider_email")
 	private String providerEmail;
-	 @Column(name="provider_phone")
+	@Column(name = "provider_phone")
 	private String providerPhone;
-	 @Column(name="api_document_path")
+	@Column(name = "api_document_path")
 	private String api_documentPath;
-	 @Column(name="logo_path")
+	@Column(name = "logo_path")
 	private String logoPath;
-	 @Column(name="delete_flag")
+	@Column(name = "delete_flag")
 	private int deleteFlag;
-	 @Column(name="created_date")
+	@Column(name = "created_date")
 	private Date createdDate;
-	 @Column(name="updated_date")
+	@Column(name = "updated_date")
 	private Date updatedDate;
-	 @Column(name="valid_from")
+	@Column(name = "valid_from")
 	private Date validFrom;
-	 @Column(name="valid_to")
+	@Column(name = "valid_to")
 	private Date validTo;
+
 	public long getProviderId() {
 		return providerId;
 	}
+
 	public void setProviderId(long providerId) {
 		this.providerId = providerId;
 	}
+
 	public String getProviderName() {
 		return providerName;
 	}
+
 	public void setProviderName(String providerName) {
 		this.providerName = providerName;
 	}
+
 	public int getProvideTier() {
 		return provideTier;
 	}
+
 	public void setProvideTier(int provideTier) {
 		this.provideTier = provideTier;
 	}
+
 	public int getConcurrentViews() {
 		return concurrentViews;
 	}
+
 	public void setConcurrentViews(int concurrentViews) {
 		this.concurrentViews = concurrentViews;
 	}
+
 	public int getOfferedPrice() {
 		return offeredPrice;
 	}
+
 	public void setOfferedPrice(int offeredPrice) {
 		this.offeredPrice = offeredPrice;
 	}
+
 	public int getEnduserPrice() {
 		return enduserPrice;
 	}
+
 	public void setEnduserPrice(int enduserPrice) {
 		this.enduserPrice = enduserPrice;
 	}
+
 	public int getProviderStatus() {
 		return providerStatus;
 	}
+
 	public void setProviderStatus(int providerStatus) {
 		this.providerStatus = providerStatus;
 	}
+
 	public String getStagingKey() {
 		return stagingKey;
 	}
+
 	public void setStagingKey(String stagingKey) {
 		this.stagingKey = stagingKey;
 	}
+
 	public String getProductionKey() {
 		return productionKey;
 	}
+
 	public void setProductionKey(String productionKey) {
 		this.productionKey = productionKey;
 	}
+
 	public String getProviderEmail() {
 		return providerEmail;
 	}
+
 	public void setProviderEmail(String providerEmail) {
 		this.providerEmail = providerEmail;
 	}
+
 	public String getProviderPhone() {
 		return providerPhone;
 	}
+
 	public void setProviderPhone(String providerPhone) {
 		this.providerPhone = providerPhone;
 	}
+
 	public String getApi_documentPath() {
 		return api_documentPath;
 	}
+
 	public void setApi_documentPath(String api_documentPath) {
 		this.api_documentPath = api_documentPath;
 	}
+
 	public String getLogoPath() {
 		return logoPath;
 	}
+
 	public void setLogoPath(String logoPath) {
 		this.logoPath = logoPath;
 	}
+
 	public int getDeleteFlag() {
 		return deleteFlag;
 	}
+
 	public void setDeleteFlag(int deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
+
 	public Date getCreatedDate() {
 		return createdDate;
 	}
+
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
+
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}
+
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
+
 	public Date getValidFrom() {
 		return validFrom;
 	}
+
 	public void setValidFrom(Date validFrom) {
 		this.validFrom = validFrom;
 	}
+
 	public Date getValidTo() {
 		return validTo;
 	}
+
 	public void setValidTo(Date validTo) {
 		this.validTo = validTo;
 	}
+
 	public ProvidersInfo(long providerId, String providerName, int provideTier, int concurrentViews, int offeredPrice,
 			int enduserPrice, int providerStatus, String stagingKey, String productionKey, String providerEmail,
 			String providerPhone, String api_documentPath, String logoPath, int deleteFlag, Date createdDate,
@@ -181,10 +218,12 @@ public class ProvidersInfo {
 		this.validFrom = validFrom;
 		this.validTo = validTo;
 	}
+
 	public ProvidersInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	@Override
 	public String toString() {
 		return "ProvidersInfo [providerId=" + providerId + ", providerName=" + providerName + ", provideTier="
@@ -195,6 +234,5 @@ public class ProvidersInfo {
 				+ deleteFlag + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", validFrom="
 				+ validFrom + ", validTo=" + validTo + "]";
 	}
-	
-	
+
 }

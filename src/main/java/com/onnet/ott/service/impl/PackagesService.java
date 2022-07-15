@@ -47,14 +47,14 @@ public class PackagesService implements PackagesInterface {
 	public PackageResponse save(PackageRequest packages) {
 		PackagesInfo packageData = packagesRepository.findById(packages.getPackageId());
 		if (ObjectUtils.isEmpty(packageData)) {
-			// packageData = new PackageEntity();
-			// packageData.setPackage_id(packages.getPackage_id());
-//			packages.setPackage_id(sequenceGeneratorService.generateSequence(PackagesInfo.SEQUENCE_NAME));
+			 packageData = new PackagesInfo();
+			packageData.setPackageId(packages.getPackageId());
+		packages.setPackageId(sequenceGeneratorService.generateSequence(PackagesInfo.SEQUENCE_NAME));
 		}
 		logger.info("<< request in service persisted package >>", packageData);
 
 		PackagesInfo packageEntity = new PackagesInfo();
-		packageEntity = new PackagesInfo((packages.getPackageId()), packages.getPackageName(),
+		packageEntity = new PackagesInfo((packageData.getPackageId()), packages.getPackageName(),
 				packages.getCalculatedPrice(), packages.getSellingPrice(), packages.getPackageStatus(),
 				packages.getDeleteFlag(), new Timestamp(System.currentTimeMillis()),
 				new Timestamp(System.currentTimeMillis()));
@@ -63,21 +63,20 @@ public class PackagesService implements PackagesInterface {
 		PackageProviderMapping packageProviderMapping = new PackageProviderMapping();
 
 		packagesRepository.save(packageEntity);
-		ProvidersInfo providerInfo = providersRepository.findById(packageEntity.getPackageId());
-		if (!ObjectUtils.isEmpty(providerInfo)) {
-			packageProviderMapping.setProviderId(providerInfo.getProviderId());
-		}
-		packageProviderMapping.setPackageId(packageEntity.getPackageId());
-		packageProviderMapping.setCreatedDate(packageEntity.getCreatedDate());
-		packageProviderMapping.setUpdatedDate(packageEntity.getUpdatedDate());
-		PackageProviderMappingRepository.save(packageProviderMapping);
-       
-		List<ProvidersInfo> providerList = new ArrayList<>();
-		packages.getProvider().forEach(id -> {
-			long providerid = id.getProviderId();
-			//ProvidersInfo providerEntity = new ProvidersInfo();
-		});
-			
+		/*
+		 * ProvidersInfo providerInfo =
+		 * providersRepository.findById(packageEntity.getPackageId()); if
+		 * (!ObjectUtils.isEmpty(providerInfo)) {
+		 * packageProviderMapping.setProviderId(providerInfo.getProviderId()); }
+		 * packageProviderMapping.setPackageId(packageEntity.getPackageId());
+		 * packageProviderMapping.setCreatedDate(packageEntity.getCreatedDate());
+		 * packageProviderMapping.setUpdatedDate(packageEntity.getUpdatedDate());
+		 * PackageProviderMappingRepository.save(packageProviderMapping);
+		 * 
+		 * List<ProvidersInfo> providerList = new ArrayList<>();
+		 * packages.getProvider().forEach(id -> { long providerid = id.getProviderId();
+		 * //ProvidersInfo providerEntity = new ProvidersInfo(); });
+		 */
 		return packageResponse;
 	}
 
@@ -119,8 +118,7 @@ public class PackagesService implements PackagesInterface {
 		PackagesInfo packagesInfo = packagesRepository.findById(pId);
 		if (packagesInfo == null) {
 			throw new UserNotFoundException("id Not Found : " + pId);
-		}
-		
+		}	
 		packagesRepository.delete(packagesInfo);
 		return "package deleted successfully " + pId;
 	}
