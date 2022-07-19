@@ -67,14 +67,20 @@ public class ProvidersController {
 
 	@PostMapping("/addLookupKeys")
 	public LookupKeysMapping addPackageEntity(@RequestBody LookupKeysMapping packages) {
-		logger.info("<< request in controller save packages >>", packages);
+		logger.info("<< request in controller save lookup keys >>", packages);
 		return iProvider.save(packages);
 	}
-
-	@GetMapping("/getLookupKeys")
-	public List<LookupKeysMapping> findAllPackageEntity() {
-		logger.info("<< request in controller get packages >>");
-		return iProvider.getLookup();
+//
+//	@GetMapping("/getLookupKeys")
+//	public List<LookupKeysMapping> findAllPackageEntity() {
+//		logger.info("<< request in controller get packages >>");
+//		return iProvider.getLookup();
+//	}
+	
+	@GetMapping("/getLookupById/{id}")
+	public LookupKeysMapping findLookById(@PathVariable long id) {
+		logger.info("<< request in controller get lookupkeys by id >>", id);
+		return iProvider.getLookupById(id);
 	}
 
 }

@@ -7,5 +7,6 @@ import com.onnet.ott.entity.LookupKeysMapping;
 
 @Repository
 public interface LookupKeysMappingRepository extends MongoRepository<LookupKeysMapping, Long> {
-	LookupKeysMappingRepository findById(long pId);
+	
+	LookupKeysMapping findByProviderId(long pId);
 }

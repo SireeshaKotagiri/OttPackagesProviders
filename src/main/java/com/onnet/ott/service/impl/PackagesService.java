@@ -4,10 +4,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -16,7 +20,6 @@ import com.onnet.ott.dto.PackageRequest;
 import com.onnet.ott.dto.PackageResponse;
 import com.onnet.ott.entity.PackageProviderMapping;
 import com.onnet.ott.entity.PackagesInfo;
-import com.onnet.ott.entity.ProvidersInfo;
 import com.onnet.ott.exception.UserNotFoundException;
 import com.onnet.ott.repository.PackageProviderMappingRepository;
 import com.onnet.ott.repository.PackagesRepository;
@@ -46,18 +49,27 @@ public class PackagesService implements PackagesInterface {
 	@Override
 	public PackageResponse save(PackageRequest packages) {
 		PackagesInfo packageData = packagesRepository.findById(packages.getPackageId());
-		if (ObjectUtils.isEmpty(packageData)) {
-			 packageData = new PackagesInfo();
-			packageData.setPackageId(packages.getPackageId());
-		packages.setPackageId(sequenceGeneratorService.generateSequence(PackagesInfo.SEQUENCE_NAME));
+		if (!ObjectUtils.isEmpty(packageData)) {
+//			 packageData = new PackagesInfo();
+//			packageData.setPackageId(packages.getPackageId());
+			packageData.setPackageName(packages.getPackageName());
+			packageData.setPackageStatus(packages.getPackageStatus());
+			Query query = new Query();
+	        query.addCriteria(Criteria.where("packageId").is(packageData.getPackageId()));
+			Update update=new Update();
+			update.set("packageName",packages.getPackageName());
+			update.set("packageStatus",packages.getPackageStatus());
+			mongoTemplate.findAndModify(query,update,PackagesInfo.class);
+			PackageResponse packageResponse = responsePayload(packageData);
+			return packageResponse;
 		}
 		logger.info("<< request in service persisted package >>", packageData);
-
 		PackagesInfo packageEntity = new PackagesInfo();
-		packageEntity = new PackagesInfo((packageData.getPackageId()), packages.getPackageName(),
+		packageEntity = new PackagesInfo((packages.getPackageId()), packages.getPackageName(),
 				packages.getCalculatedPrice(), packages.getSellingPrice(), packages.getPackageStatus(),
 				packages.getDeleteFlag(), new Timestamp(System.currentTimeMillis()),
 				new Timestamp(System.currentTimeMillis()));
+		
 
 		PackageResponse packageResponse = responsePayload(packageEntity);
 		PackageProviderMapping packageProviderMapping = new PackageProviderMapping();
@@ -106,9 +118,35 @@ public class PackagesService implements PackagesInterface {
 	public PackageResponse updatePackage(PackageRequest packages) {
 		PackagesInfo packageentity = packagesRepository.findById(packages.getPackageId());
 		if (packageentity == null) {
-			throw new UserNotFoundException("package Not Found : " + packageentity.getPackageId());
+			throw new UserNotFoundException("package Not Found : " + packages.getPackageId());
 		} else {
-			PackageResponse packageResponse = save(packages);
+			PackagesInfo packageData = packagesRepository.findById(packages.getPackageId());
+			if (!ObjectUtils.isEmpty(packageData)) {
+//				 packageData = new PackagesInfo();
+//				packageData.setPackageId(packages.getPackageId());
+				packageData.setPackageName(packages.getPackageName());
+				packageData.setPackageStatus(packages.getPackageStatus());
+				packageData.setCalculatedPrice(packages.getCalculatedPrice());
+				packageData.setSellingPrice(packages.getSellingPrice());
+				packageData.setDeleteFlag(packages.getDeleteFlag());
+				packageData.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+				packageData.setUpdatedDate(new Timestamp(System.currentTimeMillis()));
+				Query query = new Query();
+		        query.addCriteria(Criteria.where("packageId").is(packageData.getPackageId()));
+				Update update=new Update();
+				update.set("packageName",packages.getPackageName());
+				update.set("calculatedPrice",packages.getCalculatedPrice());
+				update.set("sellingPrice",packages.getSellingPrice());
+				update.set("packageStatus",packages.getPackageStatus());
+				update.set("deleteFlag",packages.getDeleteFlag());
+				update.set("createdDate",new Timestamp(System.currentTimeMillis()));
+				update.set("updatedDate",new Timestamp(System.currentTimeMillis()));
+				
+				mongoTemplate.findAndModify(query,update,PackagesInfo.class);
+				
+			}
+//			PackageResponse packageResponse = save(packages);
+			PackageResponse packageResponse = responsePayload(packageData);
 			return packageResponse;
 		}
 	}
@@ -119,7 +157,8 @@ public class PackagesService implements PackagesInterface {
 		if (packagesInfo == null) {
 			throw new UserNotFoundException("id Not Found : " + pId);
 		}	
-		packagesRepository.delete(packagesInfo);
+        mongoTemplate.remove(Query.query(Criteria.where("packageId").is(packagesInfo.getPackageId())), PackagesInfo.class);
+
 		return "package deleted successfully " + pId;
 		
 	}

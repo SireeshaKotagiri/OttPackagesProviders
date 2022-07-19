@@ -24,7 +24,9 @@ public interface ProvidersInterface {
 	
 	LookupKeysMapping save(LookupKeysMapping provider);
 	
-	List<LookupKeysMapping> getLookup();
+	//List<LookupKeysMapping> getLookup();
+	
+	LookupKeysMapping getLookupById(long pId);
 
 
 }

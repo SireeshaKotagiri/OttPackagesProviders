@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.authenticator.jaspic.PersistentProviderRegistrations.Providers;
 import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,10 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import com.onnet.ott.controller.ProvidersController;
+import com.onnet.ott.dto.PackageResponse;
 import com.onnet.ott.dto.ProviderRequest;
 import com.onnet.ott.dto.ProviderResponse;
 import com.onnet.ott.entity.LookupKeysMapping;
@@ -114,10 +119,36 @@ public class ProvidersService implements ProvidersInterface {
 	@Override
 	public ProviderResponse updateProvider(ProviderRequest provider) {
 		ProvidersInfo packageentity = providersRepository.findById(provider.getProviderId());
+		ProvidersInfo str = null;
 		if (packageentity == null) {
 			throw new UserNotFoundException("package Not Found : " + provider.getProviderId());
 		} else {
-			ProviderResponse packageResponse = save(provider);
+			ProvidersInfo packageData = providersRepository.findById(provider.getProviderId());
+			if (!ObjectUtils.isEmpty(packageData)) {
+				Query query = new Query();
+		        query.addCriteria(Criteria.where("providerId").is(packageData.getProviderId()));
+				Update update = new Update();
+				update.set("providerName",provider.getProviderName());
+				update.set("providerTier",provider.getProvideTier());
+				update.set("concurrentViews",provider.getConcurrentViews());
+				update.set("offeredPrice",provider.getOfferedPrice());
+				update.set("enduserPrice",provider.getEnduserPrice());
+				update.set("providerStatus",provider.getProviderStatus());
+				update.set("stagingKey",provider.getStagingKey());
+				update.set("productionKey",provider.getProductionKey());
+				update.set("providerEmail",provider.getProviderEmail());
+				update.set("providerPhone",provider.getProviderPhone());
+				update.set("api_documentPath",provider.getApi_documentPath());
+				update.set("logoPath",provider.getLogoPath());
+				update.set("deleteFlag",provider.getDeleteFlag());
+				update.set("createdDate",new Timestamp(System.currentTimeMillis()));
+				update.set("updatedDate",new Timestamp(System.currentTimeMillis()));
+				update.set("validFrom",new Timestamp(System.currentTimeMillis()));
+				update.set("validTo",new Timestamp(System.currentTimeMillis()));
+				str = mongoTemplate.findAndModify(query,update,ProvidersInfo.class);
+				
+			}
+			ProviderResponse packageResponse = responsePayload(str);
 			return packageResponse;
 		}
 	}
@@ -128,7 +159,8 @@ public class ProvidersService implements ProvidersInterface {
 		if (providersInfo == null) {
 			throw new UserNotFoundException("id Not Found : " + pId);
 		}
-		providersRepository.delete(providersInfo);
+        mongoTemplate.remove(Query.query(Criteria.where("providerId").is(providersInfo.getProviderId())), ProvidersInfo.class);
+
 		return "provider deleted successfully " + pId;
 		
 	}
@@ -188,6 +220,16 @@ public class ProvidersService implements ProvidersInterface {
 		}
 	}
 
+	@Override
+	public LookupKeysMapping getLookupById(long pId) {
+		LookupKeysMapping packageentity = lookupKeysMappingRepository.findByProviderId(pId);
+		if (packageentity == null) {
+			throw new UserNotFoundException("id Not Found : " + pId);
+		}
+		
+		return packageentity;
+	}
+
 	
 	/*
 	 * @Override public List<LookupKeysMapping> getLookup() {
@@ -205,24 +247,5 @@ public class ProvidersService implements ProvidersInterface {
 	 * 
 	 * return keys; }
 	 */
-	  @Override public List<LookupKeysMapping> getLookup() {
-		  List<LookupKeysMapping> keys = lookupKeysMappingRepository.findAll();
-		  for(LookupKeysMapping lookUp : keys) 
-		  {
-			  JSONObject obj = new  JSONObject(lookUp.getKeysMapping()); 
-		  JSONArray jsonArr = (JSONArray) obj.get("keysMapping"); 
-		  for (int k = 0; k < jsonArr.size(); k++) 
-		  {
-		  if (jsonArr.get(k) instanceof JSONObject) 
-		  { 
-			  jsonArr.get(k);
-			  } 
-		  else {
-		  System.out.println(jsonArr.get(k)); }
-		  
-		  } }
-		  
-		  return keys; 
-		  }
-
+	 
 	}

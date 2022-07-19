@@ -7,47 +7,48 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "providersInfo")
 public class ProvidersInfo {
 	@Transient
 	public static final String SEQUENCE_NAME = "provider_sequence";
 	@Id
-	@Column(name = "provider_id")
+	@Field(name = "provider_id")
 	private long providerId;
-	@Column(name = "provider_name")
+	@Field(name = "provider_name")
 	private String providerName;
-	@Column(name = "provider_tier")
+	@Field(name = "provider_tier")
 	private int provideTier;
-	@Column(name = "concurrent_views")
+	@Field(name = "concurrent_views")
 	private int concurrentViews;
-	@Column(name = "offered_price")
+	@Field(name = "offered_price")
 	private int offeredPrice;
-	@Column(name = "enduser_price")
+	@Field(name = "enduser_price")
 	private int enduserPrice;
-	@Column(name = "provider_status")
+	@Field(name = "provider_status")
 	private int providerStatus;
-	@Column(name = "staging_key")
+	@Field(name = "staging_key")
 	private String stagingKey;
-	@Column(name = "production_key")
+	@Field(name = "production_key")
 	private String productionKey;
-	@Column(name = "provider_email")
+	@Field(name = "provider_email")
 	private String providerEmail;
-	@Column(name = "provider_phone")
+	@Field(name = "provider_phone")
 	private String providerPhone;
-	@Column(name = "api_document_path")
+	@Field(name = "api_document_path")
 	private String api_documentPath;
-	@Column(name = "logo_path")
+	@Field(name = "logo_path")
 	private String logoPath;
-	@Column(name = "delete_flag")
+	@Field(name = "delete_flag")
 	private int deleteFlag;
-	@Column(name = "created_date")
+	@Field(name = "created_date")
 	private Date createdDate;
-	@Column(name = "updated_date")
+	@Field(name = "updated_date")
 	private Date updatedDate;
-	@Column(name = "valid_from")
+	@Field(name = "valid_from")
 	private Date validFrom;
-	@Column(name = "valid_to")
+	@Field(name = "valid_to")
 	private Date validTo;
 
 	public long getProviderId() {

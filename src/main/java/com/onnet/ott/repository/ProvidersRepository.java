@@ -12,5 +12,8 @@ public interface ProvidersRepository extends MongoRepository<ProvidersInfo, Long
 	 @Query("{ 'providerId' : ?0 }")
 	ProvidersInfo findById(long pId);
 
+	 @Query("{ 'providerId' : ?0 }")
+	void deleteByProviderId(long providerId);
+
 
 }
