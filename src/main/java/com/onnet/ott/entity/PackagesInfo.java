@@ -4,32 +4,32 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
-
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "packagesInfo")
 public class PackagesInfo {
 	@org.springframework.data.annotation.Transient
 	public static final String SEQUENCE_NAME = "packages_sequence";
 	@Id
-	@Column(name="package_id")
+	@Field(name="package_id")
 	private long packageId;
-	@Column(name="package_name")
+	@Field(name="package_name")
 	private String packageName;
-	@Column(name="calculated_price")
+	@Field(name="calculated_price")
 	private float calculatedPrice;
-	@Column(name="selling_price")
+	@Field(name="selling_price")
 	private float sellingPrice;
-	@Column(name="package_status")
+	@Field(name="package_status")
 	private int packageStatus;
-	@Column(name="delete_flag")
+	@Field(name="delete_flag")
 	private int deleteFlag;
-	@Column(name="created_date")
+	@Field(name="created_date")
 	private Date createdDate;
-	@Column(name="updated_date")
+	@Field(name="updated_date")
 	private Date updatedDate;
 	
 
